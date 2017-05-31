@@ -1,0 +1,17 @@
+group 'com.shashov'
+version '0.97a'
+
+apply plugin: 'java'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    compile 'com.github.keedio:bigdecimal-math:-SNAPSHOT'
+    compile group: 'com.github.vinhkhuc', name: 'lbfgs4j', version: '0.2.1'
+    compile group: 'log4j', name: 'log4j', version: '1.2.16'
+}
