@@ -25,13 +25,20 @@ public class Config {
     private TaskParams taskParams;
     private ClusterMathAdapter mathAdapter;
 
+    public Config(TaskParams taskParams, StronginParams stronginParams, GrowAlgParams growAlgParams, LOParams loParams) {
+        this(taskParams);
+        setupStronginParams(stronginParams);
+        setupGrowAlgParams(growAlgParams);
+        setupLOParams(loParams);
+    }
+
     public Config(TaskParams taskParams) {
         if ((taskParams.getVertices() == null) || (taskParams.getVertices().isEmpty())) {
-            //TODO error
+            throw new IllegalArgumentException("Vertices list is empty");
         }
 
         if (taskParams.getRo() <= 0) {
-            //TODO error
+            throw new IllegalArgumentException("Parameter RO is not set");
         }
 
         M = taskParams.getVertices().size();
@@ -40,16 +47,16 @@ public class Config {
                 .setMinsCount(taskParams.getMinsCount() <= 0 ? 10 : taskParams.getMinsCount())
                 .setThreadsCount((taskParams.getRo() <= 0) ? 1 : taskParams.getThreadsCount())
                 .setVertices(new ArrayList<>(taskParams.getVertices()));
-
+        String startConf;
         if ((taskParams.getStartConf() == null) || (taskParams.getStartConf().length() < M)) {
-            params.setStartConf(new Bits(taskParams.getVertices().size()).getBites().toString());
+            startConf = new Bits(taskParams.getVertices().size()).getBites().toString();
         } else {
-            params.setStartConf(taskParams.getStartConf());
+            startConf = taskParams.getStartConf();
         }
 
         //strongin
         int n2 = 0;
-        String startConf = taskParams.getStartConf();
+        params.setStartConf(startConf);
         List<Integer> indexes = new ArrayList<>();
         for (int i = 0; i < startConf.length(); i++) {
             if (startConf.charAt(i) == '0') {
@@ -61,8 +68,8 @@ public class Config {
         STRONGIN_N = taskParams.getN() - n2;
         STRONGIN_M = indexes.size();
 
-        if ((STRONGIN_N < 0)) {
-            //TODO error
+        if ((STRONGIN_N < 0) || (STRONGIN_N > STRONGIN_M)) {
+            throw new IllegalArgumentException("Parameter N is incorrect");
         }
 
         this.taskParams = params.setN(taskParams.getN()).build();
