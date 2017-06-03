@@ -16,16 +16,15 @@ import java.util.concurrent.Executors;
 /**
  * Created by envoy on 05.03.2017.
  */
-public class ExecutorService {
+public class ClustersFinder {
     private Config config;
 
     public void process(Config config, StronginTask.Progress progress, Finish finish) throws ExecutionException, InterruptedException {
         this.config = config;
         Map<String, Conformation> output = new HashMap<>();
-        long time = System.currentTimeMillis();
         if (config.getM() - config.getStronginM() == config.getTaskParams().getN()) {
             output.put(config.getTaskParams().getStartConf(), config.getMathAdapter().getEnergy(null, true));
-            finish.onFinish(saveResults(output, progress), System.currentTimeMillis() - time);
+            finish.onFinish(saveResults(output, progress));
             return;
         }
         //interval
@@ -72,7 +71,7 @@ public class ExecutorService {
         }
 
         executor.shutdown();
-        finish.onFinish(saveResults(output, progress), System.currentTimeMillis() - time);
+        finish.onFinish(saveResults(output, progress));
     }
 
     private List<Conformation> saveResults(Map<String, Conformation> map, StronginTask.Progress progress) {
@@ -102,6 +101,6 @@ public class ExecutorService {
 
     @FunctionalInterface
     public interface Finish {
-        void onFinish(List<Conformation> results, long milliseconds);
+        void onFinish(List<Conformation> results);
     }
 }

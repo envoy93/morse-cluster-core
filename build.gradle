@@ -1,4 +1,4 @@
-group 'com.shashov'
+group 'com.shashov.cluster.math'
 version '0.97a'
 
 apply plugin: 'java'
