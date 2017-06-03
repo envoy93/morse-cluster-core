@@ -53,7 +53,7 @@ public class ClusterMathAdapter {
     }
 
     private Pair<String, List<Vertex>> getSelectedVertices(String stronginBits) {
-        List<Vertex> vertices = new ArrayList<>();
+        List<Vertex> vertices1 = new ArrayList<>();
         StringBuilder sb = new StringBuilder(startConf);
         if (stronginBits != null && !stronginBits.isEmpty()) {
             if (indexes.size() != stronginBits.length()) {
@@ -65,13 +65,13 @@ public class ClusterMathAdapter {
             }
         }
 
-        for (int i = 0; i < sb.length(); i++) {
+        for (int i = 0; i < vertices.size(); i++) {
             if (sb.charAt(i) == '1') {
-                vertices.add(new Vertex(vertices.get(i)));
+                vertices1.add(new Vertex(vertices.get(i)));
             }
         }
 
-        return new Pair<>(sb.toString(), vertices);
+        return new Pair<>(sb.toString(), vertices1);
     }
 
     private Conformation calcE(Pair<String, List<Vertex>> vertices, boolean isLocalOpt) {
