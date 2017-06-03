@@ -1,8 +1,10 @@
-package com.shashov.cluster.math.utils;
+package com.shashov.cluster.math.algs;
 
 import com.shashov.cluster.math.config.Config;
 import com.shashov.cluster.math.model.Conformation;
 import com.shashov.cluster.math.model.Vertex;
+import com.shashov.cluster.math.utils.ClusterMath;
+import com.shashov.cluster.math.utils.Lbfgs;
 import javafx.util.Pair;
 
 import java.util.ArrayList;

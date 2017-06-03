@@ -1,4 +1,4 @@
-package com.shashov.cluster.math.utils;
+package com.shashov.cluster.math.algs;
 
 import com.shashov.cluster.math.model.Bits;
 import com.shashov.cluster.math.model.Conformation;

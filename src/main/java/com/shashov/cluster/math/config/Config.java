@@ -1,7 +1,7 @@
 package com.shashov.cluster.math.config;
 
+import com.shashov.cluster.math.algs.ClusterMathAdapter;
 import com.shashov.cluster.math.model.Bits;
-import com.shashov.cluster.math.utils.ClusterMathAdapter;
 import org.nevec.rjm.BigDecimalMath;
 
 import java.math.BigDecimal;

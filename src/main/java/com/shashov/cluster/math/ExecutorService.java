@@ -1,9 +1,9 @@
 package com.shashov.cluster.math;
 
+import com.shashov.cluster.math.algs.Strongin;
 import com.shashov.cluster.math.config.Config;
 import com.shashov.cluster.math.model.Bits;
 import com.shashov.cluster.math.model.Conformation;
-import com.shashov.cluster.math.utils.StronginTask;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -19,14 +19,13 @@ import java.util.concurrent.Executors;
 public class ExecutorService {
     private Config config;
 
-    public void process(Config config, StronginTask.ProgressCallBack progressCallBack, OnFinishCallBack finishCallback) throws ExecutionException, InterruptedException {
+    public void process(Config config, StronginTask.Progress progress, Finish finish) throws ExecutionException, InterruptedException {
         this.config = config;
         Map<String, Conformation> output = new HashMap<>();
         long time = System.currentTimeMillis();
         if (config.getM() - config.getStronginM() == config.getTaskParams().getN()) {
-            progressCallBack.onFinish(10);
             output.put(config.getTaskParams().getStartConf(), config.getMathAdapter().getEnergy(null, true));
-            finishCallback.onFinish(saveResults(output, progressCallBack), System.currentTimeMillis() - time);
+            finish.onFinish(saveResults(output, progress), System.currentTimeMillis() - time);
             return;
         }
         //interval
@@ -51,9 +50,7 @@ public class ExecutorService {
         points.add(b.getNumber());
         for (int i = 0; i < config.getTaskParams().getThreadsCount(); i++) {
             Strongin strongin = new Strongin(new Bits(config.getStronginM(), points.get(i)), new Bits(config.getStronginM(), points.get(i + 1)), config);
-            StronginTask.ProgressCallBack progressCallBack1 = progressCallBack.clone();
-            progressCallBack1.setId(i);
-            StronginTask task = new StronginTask(strongin, progressCallBack1);
+            StronginTask task = new StronginTask(strongin, new StronginTask.ProgressCallBack(i + 1, progress));
             tasks.add(task);
             executor.execute(task);
         }
@@ -73,18 +70,21 @@ public class ExecutorService {
             }
             task.getProgressCallBack().onProgress(100);
         }
-        progressCallBack.onFinish(10);
+
         executor.shutdown();
-        finishCallback.onFinish(saveResults(output, progressCallBack), System.currentTimeMillis() - time);
+        finish.onFinish(saveResults(output, progress), System.currentTimeMillis() - time);
     }
 
-    private List<Conformation> saveResults(Map<String, Conformation> map, StronginTask.ProgressCallBack progressCallBack) {
+    private List<Conformation> saveResults(Map<String, Conformation> map, StronginTask.Progress progress) {
         List<Conformation> output = new ArrayList<>();
-
+        progress.onProgress(0, 0);
+        double percentDelta = 98.0 / map.size();
+        int i = 1;
         for (Conformation conformation : map.values()) {
+            progress.onProgress(0, (int) ((i++) * percentDelta));
             output.add(config.getMathAdapter().getEnergy(conformation.getBits(), true));
         }
-        progressCallBack.onFinish(50);
+
         output.sort((Conformation left, Conformation right) -> {
                     if (left.getEnergy() == right.getEnergy()) {
                         return 0;
@@ -92,7 +92,7 @@ public class ExecutorService {
                     return left.getEnergy() > right.getEnergy() ? 1 : -1;
                 }
         );
-
+        progress.onProgress(0, 100);
         return output.subList(0, Math.min(output.size(), config.getTaskParams().getMinsCount()));
     }
 
@@ -100,7 +100,8 @@ public class ExecutorService {
         return config;
     }
 
-    public interface OnFinishCallBack {
+    @FunctionalInterface
+    public interface Finish {
         void onFinish(List<Conformation> results, long milliseconds);
     }
 }

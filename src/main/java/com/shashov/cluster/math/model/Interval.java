@@ -1,8 +1,8 @@
 package com.shashov.cluster.math.model;
 
-import com.shashov.cluster.math.MinsRepository;
+import com.shashov.cluster.math.algs.Efficiency;
 import com.shashov.cluster.math.config.Config;
-import com.shashov.cluster.math.utils.Efficiency;
+import com.shashov.cluster.math.utils.MinsRepository;
 import javafx.util.Pair;
 import org.nevec.rjm.BigDecimalMath;
 

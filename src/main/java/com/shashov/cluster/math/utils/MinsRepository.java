@@ -1,4 +1,4 @@
-package com.shashov.cluster.math;
+package com.shashov.cluster.math.utils;
 
 import com.shashov.cluster.math.model.Conformation;
 

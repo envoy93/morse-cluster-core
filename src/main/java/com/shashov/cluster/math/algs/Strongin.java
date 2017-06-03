@@ -1,10 +1,10 @@
-package com.shashov.cluster.math;
+package com.shashov.cluster.math.algs;
 
+import com.shashov.cluster.math.StronginTask;
 import com.shashov.cluster.math.config.Config;
 import com.shashov.cluster.math.model.Bits;
 import com.shashov.cluster.math.model.Interval;
-import com.shashov.cluster.math.utils.Efficiency;
-import com.shashov.cluster.math.utils.StronginTask;
+import com.shashov.cluster.math.utils.MinsRepository;
 import javafx.util.Pair;
 import org.nevec.rjm.BigDecimalMath;
 
