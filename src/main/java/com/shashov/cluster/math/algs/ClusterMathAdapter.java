@@ -34,7 +34,6 @@ public class ClusterMathAdapter {
         return calcE(getSelectedVertices(stronginBits), isLocalOpt);
     }
 
-
     double getEnergyAtomWithStartConf(String stronginBits, int atomIndex) {
         if (atomIndex >= stronginBits.length()) {
             throw new IllegalArgumentException("Invalid bits size");
@@ -74,7 +73,7 @@ public class ClusterMathAdapter {
         return new Pair<>(sb.toString(), vertices1);
     }
 
-    private Conformation calcE(Pair<String, List<Vertex>> vertices, boolean isLocalOpt) {
+    public Conformation calcE(Pair<String, List<Vertex>> vertices, boolean isLocalOpt) {
         String key = vertices.getKey();
         if (optCache.containsKey(key)) {
             return optCache.get(key);

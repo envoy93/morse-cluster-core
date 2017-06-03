@@ -4,6 +4,7 @@ import com.shashov.cluster.math.algs.Strongin;
 import com.shashov.cluster.math.config.Config;
 import com.shashov.cluster.math.model.Bits;
 import com.shashov.cluster.math.model.Conformation;
+import javafx.util.Pair;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class ClustersFinder {
         int i = 1;
         for (Conformation conformation : map.values()) {
             progress.onProgress(0, (int) ((i++) * percentDelta));
-            output.add(config.getMathAdapter().getEnergy(conformation.getBits(), true));
+            output.add(config.getMathAdapter().calcE(new Pair<>(conformation.getBits(), conformation.getVertices()), true));
         }
 
         output.sort((Conformation left, Conformation right) -> {

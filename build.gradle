@@ -1,5 +1,5 @@
 group 'com.shashov.cluster.math'
-version '0.97c'
+version '0.97d'
 
 apply plugin: 'java'
 
