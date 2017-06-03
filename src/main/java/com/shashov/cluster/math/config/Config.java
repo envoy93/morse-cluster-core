@@ -73,7 +73,7 @@ public class Config {
         }
 
         this.taskParams = params.setN(taskParams.getN()).build();
-        this.mathAdapter = new ClusterMathAdapter(taskParams.getStartConf(), taskParams.getVertices(), indexes, this);
+        this.mathAdapter = new ClusterMathAdapter(this.taskParams.getStartConf(), this.taskParams.getVertices(), indexes, this);
     }
 
 
