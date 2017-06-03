@@ -27,10 +27,7 @@ public class Interval {
     private double logB;
 
     public Interval(MinsRepository repository, Bits a, Bits b, Config config) {
-        this.rep = repository;
-        this.config = config;
-        setA(a);
-        setB(b);
+        this(repository, a, b, new Efficiency(repository, a, config), new Efficiency(repository, b, config), config);
     }
 
     public Interval(MinsRepository repository, Bits a, Bits b, Efficiency zA, Efficiency zB, Config config) {
@@ -46,14 +43,6 @@ public class Interval {
 
     public Bits getB() {
         return b;
-    }
-
-    public void setA(Bits a) {
-        setA(a, new Efficiency(rep, a, config));
-    }
-
-    public void setB(Bits b) {
-        setB(b, new Efficiency(rep, b, config));
     }
 
     public void setA(Bits a, Efficiency zA) {
