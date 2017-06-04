@@ -115,6 +115,10 @@ public class Strongin {
             }
         }
 
+        getIntervals().sort((Interval left, Interval right) -> {
+            return left.getA().getNumber().compareTo(right.getA().getNumber());
+        });
+
         return rep;
     }
 
