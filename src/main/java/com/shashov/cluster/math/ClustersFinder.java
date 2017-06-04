@@ -4,6 +4,7 @@ import com.shashov.cluster.math.algs.Strongin;
 import com.shashov.cluster.math.config.Config;
 import com.shashov.cluster.math.model.Bits;
 import com.shashov.cluster.math.model.Conformation;
+import com.shashov.cluster.math.model.Interval;
 import javafx.util.Pair;
 
 import java.math.BigInteger;
@@ -22,10 +23,11 @@ public class ClustersFinder {
 
     public void process(Config config, StronginTask.Progress progress, Finish finish) throws ExecutionException, InterruptedException {
         this.config = config;
+        List<List<Interval>> intervals = new ArrayList<>();
         Map<String, Conformation> output = new HashMap<>();
         if (config.getM() - config.getStronginM() == config.getTaskParams().getN()) {
             output.put(config.getTaskParams().getStartConf(), config.getMathAdapter().getEnergy(null, true));
-            finish.onFinish(saveResults(output, progress));
+            finish.onFinish(saveResults(output, progress), intervals);
             return;
         }
         //interval
@@ -57,6 +59,7 @@ public class ClustersFinder {
 
         for (StronginTask task : tasks) {
             Strongin strongin = task.get();
+            intervals.add(strongin.getIntervals());
             String key;
             for (Conformation variant : strongin.getRep().getMins()) {
                 key = variant.getBits();
@@ -72,7 +75,7 @@ public class ClustersFinder {
         }
 
         executor.shutdown();
-        finish.onFinish(saveResults(output, progress));
+        finish.onFinish(saveResults(output, progress), intervals);
     }
 
     private List<Conformation> saveResults(Map<String, Conformation> map, StronginTask.Progress progress) {
@@ -102,6 +105,6 @@ public class ClustersFinder {
 
     @FunctionalInterface
     public interface Finish {
-        void onFinish(List<Conformation> results);
+        void onFinish(List<Conformation> results, List<List<Interval>> intervals);
     }
 }
