@@ -10,6 +10,9 @@ public class Bits {
     private BigInteger number;
     private int size;
 
+    private Bits() {
+    }
+
     public Bits(int size) {
         this.size = size;
         sb = new StringBuilder();
@@ -20,25 +23,19 @@ public class Bits {
     }
 
     public Bits(StringBuilder bits) {
-        this(bits.length());
-        setBites(bits);
-    }
-
-    public Bits(String bits) {
-        this(new StringBuilder(bits));
+        this();
+        size = bits.length();
+        setBites(bits, true);
     }
 
     public Bits(int size, BigInteger number) {
-        this(size);
+        this();
+        this.size = size;
         setBites(number);
     }
 
     private void updateNumber() {
         number = new BigInteger('0' + sb.toString(), 2); //TODO 1 bit
-    }
-
-    private void setBites(StringBuilder bits) {
-        setBites(bits, true);
     }
 
     private void setBites(BigInteger number) {

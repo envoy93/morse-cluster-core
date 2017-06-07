@@ -52,12 +52,12 @@ public class Strongin {
         }
 
         int ind = 0;
-        Interval interval = null;
-        Efficiency zX = null;
-        Bits bitsX = null;
-        boolean isUsed = false;
-        Bits cacheB = null;
-        Efficiency cacheZB = null;
+        Interval interval;
+        Efficiency zX;
+        Bits bitsX;
+        boolean isUsed;
+        Bits cacheB;
+        Efficiency cacheZB;
         int progressDelta = 2 * config.getStronginParams().getIterations() / 100;
         if (progressDelta <= 0) {
             progressDelta = 2;

@@ -54,7 +54,7 @@ public class GrowthAlg {
         }
     }
 
-    public static List<String> findBestAdjacentAtom(String startBits, double energyDelta, ClusterMathAdapter mathAdapter) {
+    private static List<String> findBestAdjacentAtom(String startBits, double energyDelta, ClusterMathAdapter mathAdapter) {
         List<String> list = new ArrayList<>();
 
         Map<String, Integer> adjacentList = new HashMap<>();
